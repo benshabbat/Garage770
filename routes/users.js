@@ -6,8 +6,8 @@ import {
     getUsers,
     createUser
   } from "../controllers/user.js";
+import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
 const router = express.Router();
-//import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
 /*
 router.get("/checkauthentication",verifyToken,(req,res,next)=>{
     res.send("logged in")
@@ -23,15 +23,13 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 //CREATE
 router.post("/create",createUser);
 
-
-
 //UPDATE
-router.put("/:id" ,updateUser);
+router.put("/:id",verifyUser, updateUser);
 //DELETE
-router.delete("/:id",deleteUser);
+router.delete("/:id",verifyUser, deleteUser);
 //GET
-router.get("/:id", getUser);
+router.get("/:id",verifyUser, getUser);
 //GET ALL
-router.get("/", getUsers);
+router.get("/",verifyAdmin, getUsers);
 
 export default router
