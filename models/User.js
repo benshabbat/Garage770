@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     cars: {
-      type: [SchemaTypes.ObjectId]
+      type: [{type:SchemaTypes.ObjectId,ref:'Car'}]
     },
     password: {
       type: String,

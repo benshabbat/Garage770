@@ -1,12 +1,13 @@
 import express from "express";
 import {
-    updateUser,
-    deleteUser,
-    getUser,
-    getUsers,
-    createUser
-  } from "../controllers/user.js";
-import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
+  updateUser,
+  deleteUser,
+  getUser,
+  getUsers,
+  createUser,
+  getUsersWithCars,
+} from "../controllers/user.js";
+import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router();
 /*
 router.get("/checkauthentication",verifyToken,(req,res,next)=>{
@@ -21,15 +22,16 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 */
 //TEST CREATE USER
 //CREATE
-router.post("/create",createUser);
+router.post("/create", createUser);
 
 //UPDATE
-router.put("/:id",verifyAdmin, updateUser);
+router.put("/:id", verifyAdmin, updateUser);
 //DELETE
-router.delete("/:id",verifyAdmin, deleteUser);
+router.delete("/:id", verifyAdmin, deleteUser);
 //GET
-router.get("/:id",verifyUser, getUser);
+router.get("/:id", verifyUser, getUser);
 //GET ALL
-router.get("/",verifyAdmin, getUsers);
+router.get("//", verifyAdmin, getUsersWithCars);
+router.get("/", verifyAdmin, getUsers);
 
-export default router
+export default router;
