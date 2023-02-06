@@ -1,12 +1,21 @@
 import Car from "../models/Car.js";
+import User from "../models/User.js";
 
 
 
 //test create Car
 export const createCar = async (req, res, next) => {
+  const userId = req.params.userId;
   const newCar = new Car(req.body);
   try {
     const savedCar = await newCar.save();
+    try{
+      await User.findByIdAndUpdate(userId, {
+        $push:{cars: savedCar}
+      })
+    }catch(err){
+      next(error);
+    }
     res.status(200).json(savedCar);
   } catch (error) {
     next(error);
