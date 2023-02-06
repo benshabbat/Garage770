@@ -21,11 +21,14 @@ const CarSchema = new mongoose.Schema(
       type: "string",
       required: true,
     },
-    // servise: {
-    //   type: SchemaTypes.ObjectId,
-    //   ref: "Servise",
-    //   required: true,
-    // },
+    services: {
+      type: [
+        {
+          type: SchemaTypes.ObjectId,
+          ref: "Service",
+        },
+      ],
+    },
   },
   { timestamps: true }
 );
