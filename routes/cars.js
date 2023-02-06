@@ -4,7 +4,8 @@ import {
     deleteCar,
     getCar,
     getCars,
-    createCar
+    createCar,
+    getCarsWithOwner
   } from "../controllers/car.js";
   import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
   const router = express.Router();
@@ -30,6 +31,8 @@ router.delete("/:id/:userId",verifyAdmin, deleteCar);
 //GET
 router.get("/:id",verifyUser, getCar);
 //GET ALL
+router.get("//",verifyAdmin, getCarsWithOwner);
 router.get("/",verifyAdmin, getCars);
+
 
 export default router

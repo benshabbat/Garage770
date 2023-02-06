@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
+const { Schema,SchemaTypes } = mongoose;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     cars: {
-      type: [Array],
+      type: [SchemaTypes.ObjectId]
     },
     password: {
       type: String,

@@ -6,12 +6,12 @@ import User from "../models/User.js";
 //test create Car
 export const createCar = async (req, res, next) => {
   const userId = req.params.userId;
-  const newCar = new Car(req.body);
+  const newCar = new Car({...req.body, owner: userId});
   try {
     const savedCar = await newCar.save();
     try{
       await User.findByIdAndUpdate(userId, {
-        $push:{cars: savedCar}
+        $push:{cars:[savedCar._id]}
       })
     }catch(err){
       next(err);
@@ -63,6 +63,14 @@ export const getCar = async (req, res, next) => {
 export const getCars = async (req, res, next) => {
   try {
     const cars = await Car.find();
+    res.status(200).json(cars);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getCarsWithOwner = async (req, res, next) => {
+  try {
+    const cars = await Car.find().populate("owner");
     res.status(200).json(cars);
   } catch (error) {
     next(error);
