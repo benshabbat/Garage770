@@ -14,11 +14,11 @@ export const createCar = async (req, res, next) => {
         $push:{cars: savedCar}
       })
     }catch(err){
-      next(error);
+      next(err);
     }
     res.status(200).json(savedCar);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 

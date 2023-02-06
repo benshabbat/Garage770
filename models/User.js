@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     cars: {
-      type: [String],
+      type: [Array],
     },
     password: {
       type: String,
