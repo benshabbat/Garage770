@@ -37,8 +37,16 @@ export const updateCar = async (req, res, next) => {
   }
 };
 export const deleteCar = async (req, res, next) => {
+  const userId = req.params.userId;
   try {
     await Car.findByIdAndDelete(req.params.id);
+    try{
+      await User.findByIdAndUpdate(userId, {
+        $pull:{cars: req.params.id}
+      })
+    }catch(err){
+      next(err);
+    }
     res.status(200).json("The Car has been removed");
   } catch (error) {
     next(error);
