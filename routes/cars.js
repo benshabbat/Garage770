@@ -5,7 +5,7 @@ import {
     getCar,
     getCars,
     createCar,
-    getCarsWithOwner
+    getCarsByType
   } from "../controllers/car.js";
   import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
   const router = express.Router();
@@ -21,6 +21,8 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 })
 */
 //TEST CREATE USER
+//GET ALL BY POPULATE
+router.get("/populate", verifyAdmin, getCarsByType);
 //CREATE
 router.post("/:userId",verifyAdmin,createCar);
 
@@ -31,8 +33,6 @@ router.delete("/:id/:userId",verifyAdmin, deleteCar);
 //GET
 router.get("/:id",verifyUser, getCar);
 //GET ALL
-router.get("/populate/owner",verifyAdmin, getCarsWithOwner);
-
 router.get("/",verifyAdmin, getCars);
 
 

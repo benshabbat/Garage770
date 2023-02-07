@@ -68,9 +68,10 @@ export const getCars = async (req, res, next) => {
     next(error);
   }
 };
-export const getCarsWithOwner = async (req, res, next) => {
+export const getCarsByType = async (req, res, next) => {
+  const type = req.query.populate
   try {
-    const cars = await Car.find().populate("owner");
+    const cars = await Car.find().populate(type);
     res.status(200).json(cars);
   } catch (error) {
     next(error);

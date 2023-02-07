@@ -51,9 +51,10 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
-export const getUsersWithCars = async (req, res, next) => {
+export const getUsersByType = async (req, res, next) => {
+  const type = req.query.populate
   try {
-    const users = await User.find().populate("cars");
+    const users = await User.find().populate(type);
     res.status(200).json(users);
   } catch (error) {
     next(error);
