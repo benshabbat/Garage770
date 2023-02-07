@@ -31,7 +31,7 @@ router.delete("/:id", verifyAdmin, deleteUser);
 //GET
 router.get("/:id", verifyUser, getUser);
 //GET ALL
-router.get("//", verifyAdmin, getUsersWithCars);
+router.get("/populate/cars", verifyAdmin, getUsersWithCars);
 router.get("/", verifyAdmin, getUsers);
 
 export default router;

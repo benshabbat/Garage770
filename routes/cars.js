@@ -31,7 +31,7 @@ router.delete("/:id/:userId",verifyAdmin, deleteCar);
 //GET
 router.get("/:id",verifyUser, getCar);
 //GET ALL
-router.get("//",verifyAdmin, getCarsWithOwner);
+router.get("/populate/owner",verifyAdmin, getCarsWithOwner);
 
 router.get("/",verifyAdmin, getCars);
 

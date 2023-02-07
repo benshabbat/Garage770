@@ -58,11 +58,13 @@ export const getServices = async (req, res, next) => {
     next(error);
   }
 };
-export const getServicesWithCars = async (req, res, next) => {
+export const getServicesByType = async (req, res, next) => {
+  const type = req.query.populate
   try {
-    const services = await Service.find().populate("cars");
+    const services = await Service.find().populate(type);
     res.status(200).json(services);
   } catch (error) {
     next(error);
   }
 };
+
