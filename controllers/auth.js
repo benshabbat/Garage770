@@ -4,17 +4,30 @@ import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(req.body.password, salt);
+  const { username, phone, email, password } = req.body;
+
+  // Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
   try {
+    // Create user
     const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: hash,
+      username,
+      email,
+      phone,
+      password: hashedPassword,
     });
     await newUser.save();
-    res.status(200).send("User has been created.");
+    // if (newUser) {
+    //   res.status(201).json({
+    //     _id: newUser.id,
+    //     name: newUser.name,
+    //     phone: newUser.phone,
+    //     email: newUser.email,
+    //     token: generateToken(newUser._id),
+    //   });
+    // }
+    res.status(200).send(newUser);
   } catch (error) {
     next(error);
   }
@@ -44,4 +57,11 @@ export const login = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT, {
+    expiresIn: "30d",
+  });
 };
