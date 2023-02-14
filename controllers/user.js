@@ -14,11 +14,15 @@ export const createUser = async (req, res, next) => {
 };
 
 export const updateUser = async (req, res, next) => {
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
+   
       {
-        $set: req.body,
+        $set: req.body
       },
       { new: true }
     );
