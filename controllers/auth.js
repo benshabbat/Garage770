@@ -21,12 +21,11 @@ export const register = async (req, res, next) => {
       phone,
       password: hashedPassword,
     });
-    res.status(200).send({
+    res.status(200).json({
       _id: newUser.id,
       name: newUser.name,
       phone: newUser.phone,
       email: newUser.email,
-      // token: generateToken(newUser._id),
     });
   } catch (error) {
     next(error);
@@ -36,40 +35,46 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({
-      username,
-    });
+    // Check for user username
+    const user = await User.findOne({ username });
+
     if (!user) return next(createError(404, "User not found!"));
 
     const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword)
       return next(createError(400, "Wrong password or username!"));
+
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT
     );
-    const { isAdmin, ...otherDetails } = user._doc;
-    // try {
-    //   await User.findByIdAndUpdate(user._id, {
-    //     $push: { token },
-    //   });
-    // } catch (err) {
-    //   next(err);
-    // }
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ ...otherDetails, token });
+    const { isAdmin} = user._doc;
+
+    if (user && isPassword) {
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json({
+          _id: user.id,
+          name: user.name,
+          email: user.email,
+          token,
+          isAdmin,
+        });
+    } else {
+      return next(createError(400, "Invalid credentials!"));
+    }
   } catch (error) {
     next(error);
   }
 };
 
 // Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT, {
-    expiresIn: "30d",
-  });
+const generateToken = (id, isAdmin) => {
+  return jwt.sign(
+    { id, isAdmin },
+    process.env.JWT
+    // {expiresIn: "30d",}
+  );
 };
