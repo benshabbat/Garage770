@@ -6,6 +6,10 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res, next) => {
   const { username, phone, email, password } = req.body;
 
+  //Check if User Exist
+  const userExist = await User.findOne({ username });
+  if (userExist) return next(createError(400, "User already Exists"));
+
   // Hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -61,7 +65,6 @@ export const login = async (req, res, next) => {
       })
       .status(200)
       .json({ ...otherDetails, token });
-
   } catch (error) {
     next(error);
   }
