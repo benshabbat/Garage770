@@ -70,6 +70,13 @@ export const login = async (req, res, next) => {
   }
 };
 
+
+//logout
+export const logout = (req,res)=>{
+  
+}
+
+
 // Generate JWT
 const generateToken = (id, isAdmin) => {
   return jwt.sign(
