@@ -68,3 +68,12 @@ export const getServicesByType = async (req, res, next) => {
   }
 };
 
+export const getServicesByCar = async (req, res, next) => {
+  try {
+    const services = await Service.find({ car: req.params.car });
+    res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+
