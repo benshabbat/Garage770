@@ -8,10 +8,17 @@ import messagesRoute from "./routes/messages.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./config/db.js"
+// import errorHandler from "./middleware/errorHandler.js"
+// import { logger } from "./middleware/logger.js";
+// const { logger } = require('./middleware/logger')
 const app = express();
 dotenv.config();
 
+
+
 //middlewares
+// logger()
+// app.use(logger())
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,7 +31,7 @@ app.use("/api/services", servicesRoute);
 app.use("/api/messages", messagesRoute);
 
 
-
+// app.use(errorHandler())
 app.listen(8800, () => {
   connectDB();
   console.log("connected to backend!");
