@@ -72,9 +72,15 @@ export const login = async (req, res, next) => {
 
 
 //logout
-export const logout = (req,res)=>{
-  
-}
+export const logout = async (req, res) => {
+  res
+    .clearCookie("access_token", {
+      sameSite: "none",
+      secure: true,
+    })
+    .status(200)
+    .send("User has been logged out.");
+};
 
 
 // Generate JWT
