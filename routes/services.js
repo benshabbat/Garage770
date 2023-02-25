@@ -7,6 +7,7 @@ import {
   getServices,
   getServicesByType,
   getServicesByCar,
+  getServicesByUser
 } from "../controllers/service.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router();
@@ -36,7 +37,9 @@ router.delete("/:id", verifyAdmin, deleteService);
 router.get("/:id", verifyUser, getService);
 
 // GET by car
-router.get("/car/:car", verifyAdmin, getServicesByCar);
+router.get("/car/:car", verifyUser, getServicesByCar);
+// GET by user
+router.get("/user/:user", verifyUser, getServicesByUser);
 
 //GET ALL
 router.get("/", verifyAdmin, getServices);

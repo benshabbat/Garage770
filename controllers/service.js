@@ -1,5 +1,6 @@
 import Service from "../models/Service.js";
 import Car from "../models/Car.js";
+import User from "../models/User.js";
 
 //test create user
 export const createService = async (req, res, next) => {
@@ -71,6 +72,14 @@ export const getServicesByType = async (req, res, next) => {
 export const getServicesByCar = async (req, res, next) => {
   try {
     const services = await Service.find({ car: req.params.car });
+    res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getServicesByUser = async (req, res, next) => {
+  try {
+    const services = await Service.findById({ user: req.params.user });
     res.status(200).json(services);
   } catch (error) {
     next(error);
