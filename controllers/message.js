@@ -3,21 +3,46 @@ import User from "../models/User.js";
 
 
 export const createMessage = async (req, res, next) => {
-  const from = req.params.from;
+  // const from = req.params.from;
   const to = req.params.to;
-  const newMessage = new Message({ ...req.body, to: to, from: from });
+  const newMessage = new Message({ ...req.body, to: to, 
+    // from: from 
+  });
   try {
     const savedMessage = await newMessage.save();
-    // try {
-    //   await User.findByIdAndUpdate(from, {
-    //     $push: { messages: [savedMessage._id] },
-    //   });
-    //   await User.findByIdAndUpdate(to, {
-    //     $push: { messages: [savedMessage._id] },
-    //   });
-    // } catch (err) {
-    //   next(err);
-    // }
+    try {
+      await User.findByIdAndUpdate(from, {
+        $push: { messages: [savedMessage._id] },
+      });
+      await User.findByIdAndUpdate(to, {
+        $push: { messages: [savedMessage._id] },
+      });
+    } catch (err) {
+      next(err);
+    }
+    res.status(200).json(savedMessage);
+  } catch (err) {
+    next(err);
+  }
+};
+export const createMessageToAdmin = async (req, res, next) => {
+  // const from = req.params.from;
+  const to = req.params.to;
+  const newMessage = new Message({ ...req.body, to: to, 
+    // from: from 
+  });
+  try {
+    const savedMessage = await newMessage.save();
+    try {
+      await User.findByIdAndUpdate(from, {
+        $push: { messages: [savedMessage._id] },
+      });
+      await User.findByIdAndUpdate(to, {
+        $push: { messages: [savedMessage._id] },
+      });
+    } catch (err) {
+      next(err);
+    }
     res.status(200).json(savedMessage);
   } catch (err) {
     next(err);

@@ -4,7 +4,7 @@ import {
     updateMessage,
     deleteMessage,
     getMessage,
-    getMessages
+    getMessages,createMessageToAdmin
 
 } from "../controllers/message.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
@@ -26,6 +26,8 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 // router.get("/populate", verifyAdmin, getServicesByType);
 //CREATE
 router.post("/:from/:to", createMessage);
+//CREATE
+router.post("/to/:to", createMessageToAdmin);
 //UPDATE
 router.put("/:idMessage", verifyUser, updateMessage);
 //DELETE
