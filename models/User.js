@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema(
     cars: {
       type: [{type:SchemaTypes.ObjectId,ref:'Car'}]
     },
+    messages: {
+      type: [{type:SchemaTypes.ObjectId,ref:'Message'}]
+    },
     password: {
       type: String,
       required: true,
