@@ -25,7 +25,7 @@ const MessageSchema = new mongoose.Schema(
     read: {
       type: Boolean,
       default:false,
-      required: true,
+      // required: true,
     }
   },
   { timestamps: true }

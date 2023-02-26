@@ -25,9 +25,9 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 // //GET ALL BY POPULATE
 // router.get("/populate", verifyAdmin, getServicesByType);
 //CREATE
-router.post("/:from/:to", createMessage);
 //CREATE
 router.post("/to/:to", createMessageToAdmin);
+router.post("/:from/:to", createMessage);
 //UPDATE
 router.put("/:idMessage", verifyUser, updateMessage);
 //DELETE

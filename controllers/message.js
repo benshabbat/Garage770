@@ -3,10 +3,9 @@ import User from "../models/User.js";
 
 
 export const createMessage = async (req, res, next) => {
-  // const from = req.params.from;
+  const from = req.params.from;
   const to = req.params.to;
-  const newMessage = new Message({ ...req.body, to: to, 
-    // from: from 
+  const newMessage = new Message({ ...req.body, to, from 
   });
   try {
     const savedMessage = await newMessage.save();
@@ -28,6 +27,7 @@ export const createMessage = async (req, res, next) => {
 export const createMessageToAdmin = async (req, res, next) => {
   // const from = req.params.from;
   const to = req.params.to;
+  const { from } = req.body;
   const newMessage = new Message({ ...req.body, to: to, 
     // from: from 
   });
