@@ -28,7 +28,8 @@ export const createMessageToAdmin = async (req, res, next) => {
   // const from = req.params.from;
   const to = req.params.to;
   const { from } = req.body;
-  const newMessage = new Message({ ...req.body, to: to, 
+  const newMessage = new Message({ ...req.body
+    , to, 
     // from: from 
   });
   try {
