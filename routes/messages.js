@@ -1,11 +1,13 @@
 import express from "express";
 import {
-    createMessage,
-    updateMessage,
-    deleteMessage,
-    getMessage,
-    getMessages,createMessageToAdmin
-
+  createMessage,
+  updateMessage,
+  deleteMessage,
+  getMessage,
+  getMessages,
+  createMessageToAdmin,
+  getMessagesByType,
+  getMessageByUser,
 } from "../controllers/message.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router();
@@ -22,8 +24,8 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
 */
 //TEST CREATE USER
 
-// //GET ALL BY POPULATE
-// router.get("/populate", verifyAdmin, getServicesByType);
+//GET ALL BY POPULATE
+router.get("/populate", verifyAdmin, getMessagesByType);
 //CREATE
 //CREATE
 router.post("/to/:to", createMessageToAdmin);
@@ -34,6 +36,8 @@ router.put("/:idMessage", verifyUser, updateMessage);
 router.delete("/:id", verifyUser, deleteMessage);
 //GET
 router.get("/:id", verifyUser, getMessage);
+//GET
+router.get("/user/:id", verifyUser, getMessageByUser);
 //GET ALL
 router.get("/", verifyAdmin, getMessages);
 

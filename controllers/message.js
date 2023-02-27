@@ -79,6 +79,15 @@ export const getMessage = async (req, res, next) => {
     next(error);
   }
 };
+export const getMessageByUser = async (req, res, next) => {
+  try {
+    const messagesTo = await Message.find({to :req.params.id});
+    const messagesFrom = await Message.find({from :req.params.id});
+    res.status(200).json(messagesTo.concat(messagesFrom));
+  } catch (error) {
+    next(error);
+  }
+};
 export const getMessages = async (req, res, next) => {
   try {
     const messages = await Message.find();
@@ -87,13 +96,13 @@ export const getMessages = async (req, res, next) => {
     next(error);
   }
 };
-// export const getMessagesByType = async (req, res, next) => {
-//   const type = req.query.populate
-//   try {
-//     const services = await Service.find().populate(type);
-//     res.status(200).json(services);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+export const getMessagesByType = async (req, res, next) => {
+  const type = req.query.populate
+  try {
+    const messages = await Message.find().populate(type);
+    res.status(200).json(messages);
+  } catch (error) {
+    next(error);
+  }
+};
 
