@@ -39,7 +39,7 @@ router.get("/:id", verifyUser, getService);
 // GET by car
 router.get("/car/:car", verifyUser, getServicesByCar);
 // GET by user
-router.get("/user/:user", verifyUser, getServicesByUser);
+router.get("/user/:user", getServicesByUser);
 
 //GET ALL
 router.get("/", verifyAdmin, getServices);

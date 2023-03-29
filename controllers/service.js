@@ -79,7 +79,7 @@ export const getServicesByCar = async (req, res, next) => {
 };
 export const getServicesByUser = async (req, res, next) => {
   try {
-    const services = await Service.findById({ user: req.params.user });
+    const services = await Car.find({owner: req.params.user });
     res.status(200).json(services);
   } catch (error) {
     next(error);
