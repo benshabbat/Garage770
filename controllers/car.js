@@ -54,7 +54,7 @@ export const deleteCar = async (req, res, next) => {
 };
 export const getCar = async (req, res, next) => {
   try {
-    const car = await Car.findById(req.params.id);
+    const car = await Car.findById(req.params.id).populate("services");
     res.status(200).json(car);
   } catch (error) {
     next(error);
@@ -72,6 +72,22 @@ export const getCarsByType = async (req, res, next) => {
   const type = req.query.populate
   try {
     const cars = await Car.find().populate(type);
+    res.status(200).json(cars);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getCarsWhitService = async (req, res, next) => {
+  try {
+    const cars = await Car.find().populate("services");
+    res.status(200).json(cars);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getCarsByOwner = async (req, res, next) => {
+  try {
+    const cars = await Car.find({owner:req.params.user}).populate("services");
     res.status(200).json(cars);
   } catch (error) {
     next(error);
