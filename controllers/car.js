@@ -77,7 +77,7 @@ export const getCarsByType = async (req, res, next) => {
     next(error);
   }
 };
-export const getCarsWhitService = async (req, res, next) => {
+export const getCarsWithService = async (req, res, next) => {
   try {
     const cars = await Car.find().populate("services");
     res.status(200).json(cars);
