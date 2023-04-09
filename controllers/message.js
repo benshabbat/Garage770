@@ -82,8 +82,8 @@ export const getMessage = async (req, res, next) => {
 };
 export const getMessageByUser = async (req, res, next) => {
   try {
-    const messagesTo = await Message.find({to :req.params.id});
-    const messagesFrom = await Message.find({from :req.params.id});
+    const messagesTo = await Message.find({to :req.params.id}).populate("to").populate("from");
+    const messagesFrom = await Message.find({from :req.params.id}).populate("from").populate("to");
     res.status(200).json(messagesTo.concat(messagesFrom));
   } catch (error) {
     next(error);
