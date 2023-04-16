@@ -1,12 +1,17 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import {getUserService,getUsersService} from "../services/user.js"
+import {
+  getUserService,
+  getUsersService,
+  updateUserService,
+  createUserService,
+  deleteUserService,
+  getUsersByTypeService,
+} from "../services/userService.js";
 
 //test create user
 export const createUser = async (req, res, next) => {
-  const newUser = new User(req.body);
   try {
-    const savedUser = await newUser.save();
+    const savedUser = await createUserService(req);
     res.status(200).json(savedUser);
   } catch (error) {
     next(error);
@@ -14,20 +19,8 @@ export const createUser = async (req, res, next) => {
 };
 
 export const updateUser = async (req, res, next) => {
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    // const user = await User.findById(req.params.id)
-    
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-   
-      {
-        $set: {...req.body,password:hashedPassword}
-      },
-      { new: true }
-    );
+    const updatedUser = await updateUserService(req);
     res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
@@ -35,23 +28,16 @@ export const updateUser = async (req, res, next) => {
 };
 export const deleteUser = async (req, res, next) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await deleteUserService(req);
     res.status(200).json("The User has been removed");
   } catch (error) {
     next(error);
   }
 };
-// export const getUser = async (req, res, next) => {
-//   try {
-//     const user = await User.findById(req.params.id).populate("cars");
-//     res.status(200).json(user);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+
 export const getUser = async (req, res, next) => {
   try {
-    const user = await getUserService(req.params.id);
+    const user = await getUserService(req);
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -59,16 +45,15 @@ export const getUser = async (req, res, next) => {
 };
 export const getUsers = async (req, res, next) => {
   try {
-    const users = await getUsersService()
+    const users = await getUsersService();
     res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 };
 export const getUsersByType = async (req, res, next) => {
-  const type = req.query.populate
   try {
-    const users = await User.find().populate(type);
+    const users = await getUsersByTypeService(req);
     res.status(200).json(users);
   } catch (error) {
     next(error);
