@@ -1,7 +1,6 @@
 import Message from "../models/Message.js";
 import User from "../models/User.js";
 
-
 export const createMessage = async (req, res, next) => {
   const from = req.params.from;
   const to = req.params.to;
