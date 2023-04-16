@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-
+import {getUserService,getUsersService} from "../services/user.js"
 
 //test create user
 export const createUser = async (req, res, next) => {
@@ -41,9 +41,17 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+// export const getUser = async (req, res, next) => {
+//   try {
+//     const user = await User.findById(req.params.id).populate("cars");
+//     res.status(200).json(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 export const getUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id).populate("cars");
+    const user = await getUserService(req.params.id);
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -51,7 +59,7 @@ export const getUser = async (req, res, next) => {
 };
 export const getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await getUsersService()
     res.status(200).json(users);
   } catch (error) {
     next(error);

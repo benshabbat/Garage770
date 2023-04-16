@@ -1,18 +1,18 @@
 import User from "../models/User.js";
 
-export const updateUser = async (req, hashedPassword) => {
+export const getUserService = async (req) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-
-      {
-        $set: { ...req.body, password: hashedPassword },
-      },
-      { new: true }
-    );
-    return updatedUser;
-  } catch (e) {
-    // Log Errors
-    throw Error("Error while Paginating Users");
+    const user = await User.findById(req).populate("cars");
+    return user;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+export const getUsersService = async () => {
+  try {
+    const users = await User.find();
+    return users;
+  } catch (error) {
+    throw Error(error);
   }
 };
