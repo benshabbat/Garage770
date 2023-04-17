@@ -1,7 +1,7 @@
 import Message from "../models/Message.js";
 import User from "../models/User.js";
 
-const createMessage = async (req, res, next) => {
+const createMessage = async (req) => {
   const from = req.params.from;
   const to = req.params.to;
   const newMessage = new Message({ ...req.body, to, from });
@@ -14,15 +14,15 @@ const createMessage = async (req, res, next) => {
       await User.findByIdAndUpdate(to, {
         $push: { messages: [savedMessage._id] },
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw Error(error);
     }
-    res.status(200).json(savedMessage);
-  } catch (err) {
-    next(err);
+    return savedMessage;
+  } catch (error) {
+    throw Error(error);
   }
 };
-const createMessageToAdmin = async (req, res, next) => {
+const createMessageToAdmin = async (req) => {
   // const from = req.params.from;
   const to = req.params.to;
   const { from } = req.body;
@@ -40,16 +40,16 @@ const createMessageToAdmin = async (req, res, next) => {
       await User.findByIdAndUpdate(to, {
         $push: { messages: [savedMessage._id] },
       });
-    } catch (err) {
-      next(err);
+      return savedMessage;
+    } catch (error) {
+      throw Error(error);
     }
-    res.status(200).json(savedMessage);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    throw Error(error);
   }
 };
 
-const updateMessage = async (req, res, next) => {
+const updateMessage = async (req) => {
   try {
     const updatedMessage = await Message.findByIdAndUpdate(
       req.params.idMessage,
@@ -58,9 +58,9 @@ const updateMessage = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedMessage);
+    return updatedMessage;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
 const deleteMessage = async (req, res, next) => {

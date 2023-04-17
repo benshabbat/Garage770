@@ -1,48 +1,18 @@
 import Message from "../models/Message.js";
 import User from "../models/User.js";
-
+import messageService from "../services/messageService.js";
 export const createMessage = async (req, res, next) => {
-  const from = req.params.from;
-  const to = req.params.to;
-  const newMessage = new Message({ ...req.body, to, from 
-  });
   try {
-    const savedMessage = await newMessage.save();
-    try {
-      await User.findByIdAndUpdate(from, {
-        $push: { messages: [savedMessage._id] },
-      });
-      await User.findByIdAndUpdate(to, {
-        $push: { messages: [savedMessage._id] },
-      });
-    } catch (err) {
-      next(err);
-    }
+    const savedMessage = await messageService.createMessage(req);
     res.status(200).json(savedMessage);
   } catch (err) {
     next(err);
   }
 };
 export const createMessageToAdmin = async (req, res, next) => {
-  // const from = req.params.from;
-  const to = req.params.to;
-  const { from } = req.body;
-  const newMessage = new Message({ ...req.body
-    , to, 
-    // from: from 
-  });
+
   try {
-    const savedMessage = await newMessage.save();
-    try {
-      await User.findByIdAndUpdate(from, {
-        $push: { messages: [savedMessage._id] },
-      });
-      await User.findByIdAndUpdate(to, {
-        $push: { messages: [savedMessage._id] },
-      });
-    } catch (err) {
-      next(err);
-    }
+    const savedMessage = await messageService.createMessageToAdmin(req)
     res.status(200).json(savedMessage);
   } catch (err) {
     next(err);
@@ -51,13 +21,7 @@ export const createMessageToAdmin = async (req, res, next) => {
 
 export const updateMessage = async (req, res, next) => {
   try {
-    const updatedMessage = await Message.findByIdAndUpdate(
-      req.params.idMessage,
-      {
-        $set: {read:true},
-      },
-      { new: true }
-    );
+    const updatedMessage = await messageService.updateMessage(req)
     res.status(200).json(updatedMessage);
   } catch (error) {
     next(error);
