@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 
-const createUserService = async (req) => {
+const createUser = async (req) => {
   const newUser = new User(req.body);
   try {
     const savedUser = await newUser.save();
@@ -62,11 +62,14 @@ const getUsersByTypeService = async (req) => {
     throw Error(error);
   }
 };
-export {
-  getUserService,
+
+const userService = {
+  createUser,
+  getUsersByTypeService,
   getUsersService,
-  updateUserService,
-  createUserService,
+  getUserService,
   deleteUserService,
-  getUsersByTypeService
+  updateUserService,
 };
+
+export default userService;
