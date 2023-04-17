@@ -10,7 +10,7 @@ const createUser = async (req) => {
     throw Error(error);
   }
 };
-const updateUserService = async (req) => {
+const updateUser = async (req) => {
   // Hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -30,14 +30,14 @@ const updateUserService = async (req) => {
     throw Error(error);
   }
 };
-const deleteUserService = async (req) => {
+const deleteUser = async (req) => {
   try {
     return await User.findByIdAndDelete(req.params.id);
   } catch (error) {
     throw Error(error);
   }
 };
-const getUserService = async (req) => {
+const getUser = async (req) => {
   try {
     const user = await User.findById(req.params.id).populate("cars");
     return user;
@@ -45,7 +45,7 @@ const getUserService = async (req) => {
     throw Error(error);
   }
 };
-const getUsersService = async () => {
+const getUsers = async () => {
   try {
     const users = await User.find();
     return users;
@@ -53,7 +53,7 @@ const getUsersService = async () => {
     throw Error(error);
   }
 };
-const getUsersByTypeService = async (req) => {
+const getUsersByType = async (req) => {
   const type = req.query.populate;
   try {
     const users = await User.find().populate(type);
@@ -65,11 +65,11 @@ const getUsersByTypeService = async (req) => {
 
 const userService = {
   createUser,
-  getUsersByTypeService,
-  getUsersService,
-  getUserService,
-  deleteUserService,
-  updateUserService,
+  getUsersByType,
+  getUsers,
+  getUser,
+  deleteUser,
+  updateUser,
 };
 
 export default userService;

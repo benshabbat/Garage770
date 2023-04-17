@@ -1,5 +1,3 @@
-import Message from "../models/Message.js";
-import User from "../models/User.js";
 import messageService from "../services/messageService.js";
 export const createMessage = async (req, res, next) => {
   try {
@@ -10,9 +8,8 @@ export const createMessage = async (req, res, next) => {
   }
 };
 export const createMessageToAdmin = async (req, res, next) => {
-
   try {
-    const savedMessage = await messageService.createMessageToAdmin(req)
+    const savedMessage = await messageService.createMessageToAdmin(req);
     res.status(200).json(savedMessage);
   } catch (err) {
     next(err);
@@ -21,7 +18,7 @@ export const createMessageToAdmin = async (req, res, next) => {
 
 export const updateMessage = async (req, res, next) => {
   try {
-    const updatedMessage = await messageService.updateMessage(req)
+    const updatedMessage = await messageService.updateMessage(req);
     res.status(200).json(updatedMessage);
   } catch (error) {
     next(error);
@@ -29,7 +26,7 @@ export const updateMessage = async (req, res, next) => {
 };
 export const deleteMessage = async (req, res, next) => {
   try {
-    await Message.findByIdAndDelete(req.params.id);
+    await messageService.deleteMessage(req);
     res.status(200).json("The Message has been removed");
   } catch (error) {
     next(error);
@@ -37,7 +34,7 @@ export const deleteMessage = async (req, res, next) => {
 };
 export const getMessage = async (req, res, next) => {
   try {
-    const message = await Message.findById(req.params.id);
+    const message = await messageService.getMessage(req);
     res.status(200).json(message);
   } catch (error) {
     next(error);
@@ -45,28 +42,25 @@ export const getMessage = async (req, res, next) => {
 };
 export const getMessageByUser = async (req, res, next) => {
   try {
-    const messagesTo = await Message.find({to :req.params.id}).populate("to").populate("from");
-    const messagesFrom = await Message.find({from :req.params.id}).populate("from").populate("to");
-    res.status(200).json(messagesTo.concat(messagesFrom));
+    const messages = await messageService.getMessageByUser(req);
+    res.status(200).json(messages);
   } catch (error) {
     next(error);
   }
 };
 export const getMessages = async (req, res, next) => {
   try {
-    const messages = await Message.find();
+    const messages = await messageService.getMessages();
     res.status(200).json(messages);
   } catch (error) {
     next(error);
   }
 };
 export const getMessagesByType = async (req, res, next) => {
-  const type = req.query.populate
   try {
-    const messages = await Message.find().populate(type);
+    const messages = await messageService.getMessagesByType(req);
     res.status(200).json(messages);
   } catch (error) {
     next(error);
   }
 };
-

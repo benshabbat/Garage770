@@ -63,23 +63,23 @@ const updateMessage = async (req) => {
     throw Error(error);
   }
 };
-const deleteMessage = async (req, res, next) => {
+const deleteMessage = async (req) => {
   try {
     await Message.findByIdAndDelete(req.params.id);
-    res.status(200).json("The Message has been removed");
+    return "The Message has been removed";
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getMessage = async (req, res, next) => {
+const getMessage = async (req) => {
   try {
     const message = await Message.findById(req.params.id);
-    res.status(200).json(message);
+    return message;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getMessageByUser = async (req, res, next) => {
+const getMessageByUser = async (req) => {
   try {
     const messagesTo = await Message.find({ to: req.params.id })
       .populate("to")
@@ -87,26 +87,26 @@ const getMessageByUser = async (req, res, next) => {
     const messagesFrom = await Message.find({ from: req.params.id })
       .populate("from")
       .populate("to");
-    res.status(200).json(messagesTo.concat(messagesFrom));
+    return messagesTo.concat(messagesFrom);
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getMessages = async (req, res, next) => {
+const getMessages = async () => {
   try {
     const messages = await Message.find();
-    res.status(200).json(messages);
+    return messages;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
 const getMessagesByType = async (req, res, next) => {
   const type = req.query.populate;
   try {
     const messages = await Message.find().populate(type);
-    res.status(200).json(messages);
+    return messages;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
 
