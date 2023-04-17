@@ -1,7 +1,7 @@
 import Car from "../models/Car.js";
 import User from "../models/User.js";
 
-
+import carService from "../services/carService.js"
 
 //test create Car
 export const createCar = async (req, res, next) => {
@@ -79,7 +79,7 @@ export const getCarsByType = async (req, res, next) => {
 };
 export const getCarsWithService = async (req, res, next) => {
   try {
-    const cars = await Car.find().populate("services");
+    const cars = await carService.getCarsWithService();
     res.status(200).json(cars);
   } catch (error) {
     next(error);
@@ -87,7 +87,7 @@ export const getCarsWithService = async (req, res, next) => {
 };
 export const getCarsByOwner = async (req, res, next) => {
   try {
-    const cars = await Car.find({owner:req.params.user}).populate("services");
+    const cars = await carService.getCarsByOwner(req);
     res.status(200).json(cars);
   } catch (error) {
     next(error);
