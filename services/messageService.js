@@ -100,7 +100,7 @@ const getMessages = async () => {
     throw Error(error);
   }
 };
-const getMessagesByType = async (req, res, next) => {
+const getMessagesByType = async (req) => {
   const type = req.query.populate;
   try {
     const messages = await Message.find().populate(type);
