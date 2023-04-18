@@ -11,16 +11,16 @@ const createCar = async (req, res, next) => {
       await User.findByIdAndUpdate(userId, {
         $push: { cars: [savedCar._id] },
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw Error(error);
     }
-    res.status(200).json(savedCar);
-  } catch (err) {
-    next(err);
+    return savedCar;
+  } catch (error) {
+    throw Error(error);
   }
 };
 
-const updateCar = async (req, res, next) => {
+const updateCar = async (req) => {
   try {
     const updatedCar = await Car.findByIdAndUpdate(
       req.params.id,
@@ -29,12 +29,12 @@ const updateCar = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedCar);
+    return updatedCar;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const deleteCar = async (req, res, next) => {
+const deleteCar = async (req) => {
   const userId = req.params.userId;
   try {
     await Car.findByIdAndDelete(req.params.id);
@@ -42,37 +42,37 @@ const deleteCar = async (req, res, next) => {
       await User.findByIdAndUpdate(userId, {
         $pull: { cars: req.params.id },
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw Error(error);
     }
-    res.status(200).json("The Car has been removed");
+    return "The Car has been removed";
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getCar = async (req, res, next) => {
+const getCar = async (req) => {
   try {
     const car = await Car.findById(req.params.id).populate("services");
-    res.status(200).json(car);
+    return car;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getCars = async (req, res, next) => {
+const getCars = async () => {
   try {
     const cars = await Car.find();
-    res.status(200).json(cars);
+    return cars;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
-const getCarsByType = async (req, res, next) => {
+const getCarsByType = async (req) => {
   const type = req.query.populate;
   try {
     const cars = await Car.find().populate(type);
-    res.status(200).json(cars);
+    return cars;
   } catch (error) {
-    next(error);
+    throw Error(error);
   }
 };
 const getCarsWithService = async () => {

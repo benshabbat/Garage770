@@ -1,21 +1,9 @@
-import Car from "../models/Car.js";
-import User from "../models/User.js";
-
-import carService from "../services/carService.js"
+import carService from "../services/carService.js";
 
 //test create Car
 export const createCar = async (req, res, next) => {
-  const userId = req.params.userId;
-  const newCar = new Car({...req.body, owner: userId});
   try {
-    const savedCar = await newCar.save();
-    try{
-      await User.findByIdAndUpdate(userId, {
-        $push:{cars:[savedCar._id]}
-      })
-    }catch(err){
-      next(err);
-    }
+    const savedCar = await carService.createCar(req);
     res.status(200).json(savedCar);
   } catch (err) {
     next(err);
@@ -24,29 +12,15 @@ export const createCar = async (req, res, next) => {
 
 export const updateCar = async (req, res, next) => {
   try {
-    const updatedCar = await Car.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
+    const updatedCar = await carService.updateCar(req);
     res.status(200).json(updatedCar);
   } catch (error) {
     next(error);
   }
 };
 export const deleteCar = async (req, res, next) => {
-  const userId = req.params.userId;
   try {
-    await Car.findByIdAndDelete(req.params.id);
-    try{
-      await User.findByIdAndUpdate(userId, {
-        $pull:{cars: req.params.id}
-      })
-    }catch(err){
-      next(err);
-    }
+    await carService.deleteCar(req);
     res.status(200).json("The Car has been removed");
   } catch (error) {
     next(error);
@@ -54,7 +28,7 @@ export const deleteCar = async (req, res, next) => {
 };
 export const getCar = async (req, res, next) => {
   try {
-    const car = await Car.findById(req.params.id).populate("services");
+    const car = await carService.getCar(req);
     res.status(200).json(car);
   } catch (error) {
     next(error);
@@ -62,16 +36,15 @@ export const getCar = async (req, res, next) => {
 };
 export const getCars = async (req, res, next) => {
   try {
-    const cars = await Car.find();
+    const cars = await carService.getCars();
     res.status(200).json(cars);
   } catch (error) {
     next(error);
   }
 };
 export const getCarsByType = async (req, res, next) => {
-  const type = req.query.populate
   try {
-    const cars = await Car.find().populate(type);
+    const cars = await carService.getCarsByType(req);
     res.status(200).json(cars);
   } catch (error) {
     next(error);
