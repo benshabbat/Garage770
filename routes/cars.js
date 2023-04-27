@@ -20,7 +20,8 @@ router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
     res.send("hello admin logged in :)")
 })
 */
-//TEST CREATE USER
+//GET ALL
+router.get("/",verifyAdmin, getCars);
 //GET ALL BY POPULATE
 router.get("/service",verifyUser, getCarsWithService);
 router.get("/populate", verifyAdmin, getCarsByType);
@@ -34,8 +35,7 @@ router.put("/:id",verifyAdmin, updateCar);
 router.delete("/:id/:userId",verifyAdmin, deleteCar);
 //GET
 router.get("/:id",verifyUser, getCar);
-//GET ALL
-router.get("/",verifyAdmin, getCars);
+
 
 
 export default router
