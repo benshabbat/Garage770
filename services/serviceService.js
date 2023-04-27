@@ -51,7 +51,7 @@ const getService = async (req) => {
 };
 const getServices = async () => {
   try {
-    const services = await Service.find();
+    const services = await Service.find().populate("car");
     return services;
   } catch (error) {
     throw Error(error);
