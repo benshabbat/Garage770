@@ -60,7 +60,7 @@ const getCar = async (req) => {
 };
 const getCars = async () => {
   try {
-    const cars = await Car.find();
+    const cars = await Car.find().populate("owner");
     return cars;
   } catch (error) {
     throw Error(error);
