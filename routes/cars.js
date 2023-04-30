@@ -9,17 +9,7 @@ import {
   } from "../controllers/car.js";
   import { verifyAdmin, verifyToken,verifyUser } from "../utils/verifyToken.js";
   const router = express.Router();
-  /*
-router.get("/checkauthentication",verifyToken,(req,res,next)=>{
-    res.send("logged in")
-})
-router.get("/checkuser/:id",verifyUser,(req,res,next)=>{
-    res.send("hello user logged in :)")
-})
-router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
-    res.send("hello admin logged in :)")
-})
-*/
+
 //GET ALL
 router.get("/",verifyAdmin, getCars);
 //GET ALL BY POPULATE

@@ -2,7 +2,8 @@ import Car from "../models/Car.js";
 import User from "../models/User.js";
 
 //test create Car
-const createCar = async (req, res, next) => {
+
+const createCar = async (req) => {
   const userId = req.params.userId;
   const newCar = new Car({ ...req.body, owner: userId });
   try {
