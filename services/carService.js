@@ -2,10 +2,24 @@ import Car from "../models/Car.js";
 import User from "../models/User.js";
 
 //test create Car
-
+function addstrCar(car) {
+  if (car.length() === 8) {
+    car = car.slice(0, 3) + "-" + car.slice(3, 2) + "-" + car.slice(5, 3);
+  }
+  if (car.length() === 7) {
+    car = car.slice(0, 2) + "-" + car.slice(2, 3) + "-" + car.slice(5, 2);
+  }
+  return car;
+}
 const createCar = async (req) => {
   const userId = req.params.userId;
-  const newCar = new Car({ ...req.body, owner: userId });
+  const { numberPlate } = req.body;
+  numberPlate=addstrCar(numberPlate)
+  const newCar = new Car({
+    ...req.body,
+    owner: userId,
+    numberPlate
+  });
   try {
     const savedCar = await newCar.save();
     try {
