@@ -4,10 +4,10 @@ import User from "../models/User.js";
 //test create Car
 function templateCar(car) {
   if (car.length === 8) {
-    car = car.slice(0, 3)+"-"+car.slice(3, 5)+"-"+car.slice(5, 8);
+    car = car.slice(0, 3) + "-" + car.slice(3, 5) + "-" + car.slice(5, 8);
   }
   if (car.length === 7) {
-    car = car.slice(0, 2)+"-"+car.slice(2, 5)+"-"+car.slice(5, 7);
+    car = car.slice(0, 2) + "-" + car.slice(2, 5) + "-" + car.slice(5, 7);
   }
   return car;
 }
@@ -16,7 +16,7 @@ const createCar = async (req) => {
   const { numberPlate, km, brand } = req.body;
   const newNumberPlate = numberPlate;
   const newNumber = templateCar(newNumberPlate);
-  console.log(newNumber)
+  console.log(newNumber);
   const newCar = new Car({
     km,
     brand,
