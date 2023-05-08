@@ -2,7 +2,7 @@ import Car from "../models/Car.js";
 import User from "../models/User.js";
 
 //test create Car
-function addstrCar(car) {
+function templateCar(car) {
   if (car.length === 8) {
     car = car.slice(0, 3)+"-"+car.slice(3, 5)+"-"+car.slice(5, 8);
   }
@@ -15,7 +15,7 @@ const createCar = async (req) => {
   const userId = req.params.userId;
   const { numberPlate, km, brand } = req.body;
   const newNumberPlate = numberPlate;
-  const newNumber = addstrCar(newNumberPlate);
+  const newNumber = templateCar(newNumberPlate);
   console.log(newNumber)
   const newCar = new Car({
     km,
