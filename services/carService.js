@@ -13,15 +13,13 @@ function templateCar(car) {
 }
 const createCar = async (req) => {
   const userId = req.params.userId;
-  const { numberPlate, km, brand } = req.body;
-  const newNumberPlate = numberPlate;
-  const newNumber = templateCar(newNumberPlate);
-  console.log(newNumber);
+  const { numberPlate } = req.body;
+  const newNumberPlate = templateCar(numberPlate);
+  console.log(newNumberPlate);
   const newCar = new Car({
-    km,
-    brand,
+    ...req.body,
     owner: userId,
-    numberPlate: newNumber,
+    numberPlate: newNumberPlate,
   });
   try {
     const savedCar = await newCar.save();
