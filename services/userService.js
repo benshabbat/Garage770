@@ -1,6 +1,14 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 
+
+function templatePhone(phone) {
+  if (phone.length === 10) {
+    phone = phone.slice(0, 3) + "-" + phone.slice(3, 10);
+  }
+  return phone;
+}
+
 const createUser = async (req) => {
   const newUser = new User(req.body);
   try {
@@ -15,13 +23,14 @@ const updateUser = async (req) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
   // const user = await User.findById(req.params.id)
-
+  const {phone}=req.body;
+  const newPhone = templatePhone(phone)
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
 
       {
-        $set: { ...req.body, password: hashedPassword },
+        $set: { ...req.body, phone:newPhone, password: hashedPassword },
       },
       { new: true }
     );
