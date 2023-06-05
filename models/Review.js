@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 const { Schema,SchemaTypes } = mongoose;
 
-const UserSchema = new mongoose.Schema(
+const ReviewSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
       unique: true,
@@ -21,4 +21,4 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("Review", ReviewSchema);
