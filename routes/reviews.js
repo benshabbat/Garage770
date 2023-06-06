@@ -7,3 +7,5 @@ router.get("/", getReviews);
 
 //POST
 router.post("/", createReview);
+
+export default router;
