@@ -1,4 +1,4 @@
-import Review from "../models/Message.js";
+import Review from "../models/Review.js";
 
 const createReview = async (req) => {
     const newReview = new Review(req.body);
