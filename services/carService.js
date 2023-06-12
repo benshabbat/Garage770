@@ -9,6 +9,7 @@ function templateCar(car) {
   if (car.length === 7) {
     car = car.slice(0, 2) + "-" + car.slice(2, 5) + "-" + car.slice(5, 7);
   }
+
   return car;
 }
 const createCar = async (req) => {
@@ -44,8 +45,7 @@ const updateCar = async (req) => {
     const updatedCar = await Car.findByIdAndUpdate(
       req.params.id,
       {
-        $set:{ ...req.body,
-        numberPlate: newNumberPlate},
+        $set: { ...req.body, numberPlate: newNumberPlate },
       },
       { new: true }
     );
