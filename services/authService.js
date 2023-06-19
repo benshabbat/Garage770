@@ -3,9 +3,17 @@ import bcrypt from "bcryptjs";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+
+function templatePhone(phone) {
+  if (phone.length === 10) {
+    phone = phone.slice(0, 3) + "-" + phone.slice(3, 9);
+  }
+
+  return phone;
+}
 const register = async (req) => {
   const { username, phone, email, password } = req.body;
-
+  const newNumberPlate = templatePhone(phone);
   //Check if User Exist
   const userExists = await User.findOne({ username });
   if (userExists) return next(createError(400, "User already Exists"));
@@ -18,7 +26,7 @@ const register = async (req) => {
     const newUser = await User.create({
       username,
       email,
-      phone,
+      phone:newNumberPlate,
       password: hashedPassword,
     });
     return {
