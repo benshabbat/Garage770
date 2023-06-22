@@ -4,13 +4,13 @@ import User from "../models/User.js";
 //test create Car
 function templateCar(car) {
   if (car.length === 8) {
-    car = car.slice(0, 3) + "-" + car.slice(3, 5) + "-" + car.slice(5, 8);
+    return car = car.slice(0, 3) + "-" + car.slice(3, 5) + "-" + car.slice(5, 8);
   }
-  if (car.length === 7) {
-    car = car.slice(0, 2) + "-" + car.slice(2, 5) + "-" + car.slice(5, 7);
+  else if (car.length === 7) {
+    return car = car.slice(0, 2) + "-" + car.slice(2, 5) + "-" + car.slice(5, 7);
   }
 
-  return car;
+  return null;
 }
 const createCar = async (req) => {
   const userId = req.params.userId;
